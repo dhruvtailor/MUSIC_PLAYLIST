@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Music</title>
+        <style>
+            body {
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            }
+
+            label {
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            }
+
+            button {
+                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            }
+            
+            .main {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                gap: 2%;
+                width: 100%;
+            }
+
+            .sub {
+                border: 1px solid black;
+                width: 100%;
+                padding: 10px;
+                background-color: #c9ada1;
+            }
+
+            .song-list {
+                width: 100%;
+            }
+
+            .song-item {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .song-item button[name="addPlaylist"] {
+                display: flex;
+                flex-direction: row;
+                align-self: center;
+                padding: 5px;
+                border: 0px solid black;
+                border-radius: 5px;
+                color: white;
+                background-color: #013a63;
+            }
+
+            .song-item button[name="removePlaylist"] {
+                display: flex;
+                flex-direction: row;
+                align-self: center;
+                padding: 5px;
+                border: 0px solid black;
+                border-radius: 5px;
+                color: white;
+                background-color: #941b0c;
+            }
+
+            .song-item form {
+                display: flex;
+                flex-direction: row;
+                width: 40%;
+                height: auto;
+            }
+
+            .song-info {
+                width: 100%;
+                padding-left: 5px;
+            }
+
+            img {
+                width: 15%;
+            }
+
+            .form-add-song {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                width: 100%;
+                gap: 10px;
+            }
+
+            input {
+                padding: 5px;
+            }
+
+            .add-button {
+                padding: 10px 25px;
+                border: 0px solid black;
+                border-radius: 5px;
+                color: white;
+                background-color: #513c2c;
+                width: fit-content;
+                align-self: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="sub">
+                <h2>All Songs</h2>
+                
+                <% if(songs.length === 0) { %>
+                    <p>There are no songs avilable</p>
+                <% } else { %>
+                    <div class="song-list">
+                    <% for (let currItem of songs) { %>
+                        <div class="song-item">
+                            <img src=<%= currItem.image %> />
+                            <div class="song-info">
+                                <p><%= currItem.title %></p>
+                                <p><%= currItem.artist %></p>
+                            </div>
+                            <form method="POST" action="/add-to-playlist/<%= currItem._id %>">
+                                <button name="addPlaylist">Add to Playlist</button>
+                            </form>
+                        </div>
+                    <% } %>
+                    </div>
+                <% } %>
+            </div>
+
+            <div class="sub">
+                <h2>My Playlist</h2>
+
+                <% if(playlist.length === 0) { %>
+                    <p>You have no songs on the playlist!</p>
+                <% } else { %>
+                    <div class="song-list">
+                    <% for (let currItem of playlist) { %>
+                        <div class="song-item">
+                            <img src=<%= currItem.image %> />
+                            <div class="song-info">
+                                <p><%= currItem.title %></p>
+                                <p><%= currItem.artist %></p>
+                            </div>
+                            <form method="POST" action="/remove-from-playlist/<%= currItem._id %>">
+                                <button name="removePlaylist">Remove from Playlist</button>
+                            </form>
+                        </div>
+                    <% } %>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="sub">
+                <h2>Add Song to Website</h2>
+                <form class="form-add-song" method="POST" action="/add-song">
+                    <label>Song Title:</label>
+                    <input name="inputTitle" placeholder="Enter song name"/>
+                    <label>Song Artist:</label>
+                    <input name="inputArtist" placeholder="Enter song artist"/>
+                    <label>Image URL:</label>
+                    <input name="inputImageURL" placeholder="Enter url of image"/>
+                    <button class="add-button">Add Song</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
